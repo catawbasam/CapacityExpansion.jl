@@ -1,5 +1,5 @@
 """
-        load_timeseries_data_provided(region::String="GER_1"; T::Int=24, years::Array{Int,1}=[2016], att::Array{String,1}=Array{String,1}())
+        load_timeseries_data(region::Symbol=:GER_1;T::Int=24, years::Array{Int,1}=[2016], att::Array{String,1}=Array{String,1}())
 - Adding the information in the `*.csv` file at `data_path` to the data dictionary
 The `*.csv` files shall have the following structure and must have the same length:
 
@@ -10,16 +10,18 @@ The `*.csv` files shall have the following structure and must have the same leng
 The first column should be called `Timestamp` if it contains a time iterator
 The other columns can specify the single timeseries like specific geolocation.
 for regions:
-- `"GER_1"`: Germany 1 node
-- `"GER_18"`: Germany 18 nodes
-- `"CA_1"`: California 1 node
-- `"CA_14"`: California 14 nodes
-- `"TX_1"`: Texas 1 node
+- `:GER_1`: Germany 1 node
+- `:GER_18`: Germany 18 nodes
+- `:CA_1`: California 1 node
+- `:CA_14`: California 14 nodes
+- `:TX_1`: Texas 1 node
 """
-function load_timeseries_data_provided(region::String="GER_1";
+function load_timeseries_data(region_symb::Symbol=:GER_1;
                               T::Int=24,
                               years::Array{Int,1}=[2016],
                               att::Array{String,1}=Array{String,1}())
+    #Turn Symbol region_symb into String region
+    region=String(region_symb)
     # Check for existance of the region in data
     region in readdir(normpath(joinpath(@__DIR__,"..","..","data"))) || throw(@error "The region $region is not found. The provided regions are: GER_1: Germany 1 node, GER_18: Germany 18 nodes, CA_1: California 1 node, CA_14: California 14 nodes, TX_1: Texas 1 node")
     # Generate the data path based on application and region
@@ -246,7 +248,7 @@ function load_cep_data_costs(data_path::String,
 end
 
 """
-    load_cep_data_provided(region::String)
+    load_cep_data(region::Symbol)
 Loading from .csv files in a the folder `../CEP/data/{region}/`
 Follow instructions preparing your own data:
 -`region::String`: name of state or region data belongs to
@@ -255,14 +257,18 @@ Follow instructions preparing your own data:
 -`nodes::OptVariable`: `nodes[tech,node] - OptDataCEPNode`
 -`lines::OptVarible`: `lines[tech,line] - OptDataCEPLine`
 for regions:
-- `"GER_1"`: Germany 1 node
-- `"GER_18"`: Germany 18 nodes
-- `"CA_1"`: California 1 node
-- `"CA_14"`: California 14 nodes
-- `"TX_1"`: Texas 1 node
+- `:GER_1`: Germany 1 node
+- `:GER_18`: Germany 18 nodes
+- `:CA_1`: California 1 node
+- `:CA_14`: California 14 nodes
+- `:TX_1`: Texas 1 node
 """
-function load_cep_data_provided(region::String)
+function load_cep_data(region_symb::Symbol)
+  #Turn region_symb into String region
+  region=region_symb
+  #Compose data_path with data-files
   data_path=normpath(joinpath(dirname(@__FILE__),"..","..","data",region))
+  #Return the cep_data
   return load_cep_data(data_path;region=region)
 end
 
