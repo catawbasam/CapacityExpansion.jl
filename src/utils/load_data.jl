@@ -1,5 +1,5 @@
 """
-        load_timeseries_data(region::Symbol=:GER_1;T::Int=24, years::Array{Int,1}=[2016], att::Array{String,1}=Array{String,1}())
+        load_timeseries_data(region_symb::Symbol=:GER_1;T::Int=24, years::Array{Int,1}=[2016], att::Array{String,1}=Array{String,1}())
 - Adding the information in the `*.csv` file at `data_path` to the data dictionary
 The `*.csv` files shall have the following structure and must have the same length:
 
@@ -248,7 +248,7 @@ function load_cep_data_costs(data_path::String,
 end
 
 """
-    load_cep_data(region::Symbol)
+    load_cep_data(region_symb::Symbol)
 Loading from .csv files in a the folder `../CEP/data/{region}/`
 Follow instructions preparing your own data:
 -`region::String`: name of state or region data belongs to
