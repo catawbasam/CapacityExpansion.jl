@@ -1,10 +1,10 @@
 using CapacityExpansion
 using Clp
 exact_scenarios=Dict{String,OptResult}()
-for (state, years) in [["GER_1", [2016]],["CA_1", [2016]]]
+for (state, years) in [[:GER_1, [2016]],[:CA_1, [2016]]]
        # laod data
-       ts_input_data = load_timeseries_data_provided(state; T=24, years=years) #CEP
-       cep_data = load_cep_data_provided(state)
+       ts_input_data = load_timeseries_data(state; T=24, years=years) #CEP
+       cep_data = load_cep_data(state)
        ## CLUSTERING ##
        ts_clust_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=3)
        ts_full_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=30)
@@ -18,10 +18,10 @@ for (state, years) in [["GER_1", [2016]],["CA_1", [2016]]]
        design_result=run_opt(ts_clust_data.clust_data,cep_data,optimizer;descriptor="des&op")
        exact_scenarios["$state-$years-des&op"]=run_opt(ts_full_data.clust_data,cep_data,design_result.opt_config,get_cep_design_variables(design_result),optimizer;lost_el_load_cost=1e6,lost_CO2_emission_cost=700)
 end
-for (state, years) in [["GER_18", [2016]],["CA_14", [2016]]]
+for (state, years) in [[:GER_18, [2016]],[:CA_14, [2016]]]
        # laod data
-       ts_input_data = load_timeseries_data_provided(state; T=24, years=years) #CEP
-       cep_data = load_cep_data_provided(state)
+       ts_input_data = load_timeseries_data(state; T=24, years=years) #CEP
+       cep_data = load_cep_data(state)
        ## CLUSTERING ##
        ts_clust_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=3)
        ## OPTIMIZATION ##

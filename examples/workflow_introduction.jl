@@ -9,7 +9,7 @@ The data is for a Capacity Expansion Problem "CEP"
 and for the single node representation of Germany "GER_1"
 The original timeseries has 8760 entries (one for each hour of the year)
 It should be cut into K=365 periods (365 days) with T=24 timesteps per period (24h per day) =#
-ts_input_data = load_timeseries_data_provided("GER_1"; T=24)
+ts_input_data = load_timeseries_data(:GER_1; T=24)
 
 #= ClustData
 How the struct is setup:
@@ -109,7 +109,7 @@ ts_clust_result_2 = run_clust(ts_input_data; method="kmedoids", representation="
 using Clp
 optimizer=Clp.Optimizer
 # Some extra data for nodes, costs and so on:
-cep_data = load_cep_data_provided(ts_clust_data.region)
+cep_data = load_cep_data(Symbol(ts_clust_data.region))
 # Running a simple CEP with a co2-limit of 1000 kg/MWh
 co2_result = run_opt(ts_clust_data,cep_data,optimizer;descriptor="co2",co2_limit=200)
 # co2_result.

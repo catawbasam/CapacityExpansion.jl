@@ -1,3 +1,5 @@
+#Import ClustForOpt.load_timeseries_data to change it
+import ClustForOpt.load_timeseries_data
 """
         load_timeseries_data(region_symb::Symbol=:GER_1;T::Int=24, years::Array{Int,1}=[2016], att::Array{String,1}=Array{String,1}())
 - Adding the information in the `*.csv` file at `data_path` to the data dictionary

@@ -5,20 +5,22 @@ using Clp
 @testset "CEP" begin
     @testset "TX_1" begin #Compare to Merrick Testcase
         # load data
-        ts_input_data = load_timeseries_data_provided("TX_1"; T=24, years=[2008])
-        cep_input_data=load_cep_data_provided("TX_1")
+        ts_input_data = load_timeseries_data(:TX_1; T=24, years=[2008])
+        cep_input_data=load_cep_data(:TX_1)
+        # run clustering
+        ts_clust_res = run_clust(ts_input_data;method="kmeans",representation="centroid",n_init=1,n_clust=365) # default k-means
         # run optimization
-        model = run_opt(ts_input_data,cep_input_data,Clp.Optimizer;optimizer_config=Dict{Symbol,Any}(:LogLevel => 0))
+        model = run_opt(ts_clust_res.clust_data,cep_input_data,Clp.Optimizer;optimizer_config=Dict{Symbol,Any}(:LogLevel => 0))
         # compare to exact result
         exact_res=[70540.26439790576;0.0;8498.278397905757;0.0;80132.88454450261]
         @test exact_res ≈ model.variables["CAP"].data[:,1,1] atol=1
     end
     scenarios=Dict{String,OptResult}()
     #Test the workflow for single node scenarios for Germany and California
-    @testset "workflow $state" for (state, years) in [["GER_1", [2016]],["CA_1", [2016]]] begin
+    @testset "workflow $state" for (state, years) in [[:GER_1, [2016]],[:CA_1, [2016]]] begin
         # laod data
-        ts_input_data = load_timeseries_data_provided(state; T=24, years=years) #CEP
-        cep_data = load_cep_data_provided(state)
+        ts_input_data = load_timeseries_data(state; T=24, years=years) #CEP
+        cep_data = load_cep_data(state)
         ## CLUSTERING ##
         ts_clust_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=3)
         ts_full_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=30)
@@ -35,10 +37,10 @@ using Clp
         end
     end
     #Test transmission for a multi-node scenario
-    @testset "workflow $state" for (state, years) in [["GER_18", [2016]],["CA_14", [2016]]] begin
+    @testset "workflow $state" for (state, years) in [[:GER_18, [2016]],[:CA_14, [2016]]] begin
            # laod data
-           ts_input_data = load_timeseries_data_provided(state; T=24, years=years) #CEP
-           cep_data = load_cep_data_provided(state)
+           ts_input_data = load_timeseries_data(state; T=24, years=years) #CEP
+           cep_data = load_cep_data(state)
            ## CLUSTERING ##
            ts_clust_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=3)
            ## OPTIMIZATION ##

@@ -4,11 +4,11 @@ using Clp
 using Plots
 
 ## LOAD DATA ##
-state="GER_18" # or "GER_18" or "CA_1" or "TX_1"
+state=:GER_18 # or "GER_18" or "CA_1" or "TX_1"
 # laod ts-data
-ts_input_data = load_timeseries_data_provided(state; T=24) #CEP
+ts_input_data = load_timeseries_data(state; T=24) #CEP
 # load cep-data
-cep_data = load_cep_data_provided(state)
+cep_data = load_cep_data(state)
 
 ## CLUSTERING ##
 # run aggregation with kmeans

@@ -2,12 +2,12 @@
 using CapacityExpansion
 using Clp
 ## LOAD DATA ##
-state="GER_1" # or "GER_18" or "CA_1" or "TX_1"
+state=:GER_1 # or "GER_18" or "CA_1" or "TX_1"
 years=[2016] #2016 works for GER_1 and CA_1, GER_1 can also be used with 2006 to 2016 and, GER_18 is 2015 TX_1 is 2008
 # laod ts-data
-ts_input_data = load_timeseries_data_provided(state;T=24, years=years) #CEP
+ts_input_data = load_timeseries_data(state;T=24, years=years) #CEP
 # load cep-data
-cep_data = load_cep_data_provided(state)
+cep_data = load_cep_data(state)
 ## CLUSTERING ##
 # run aggregation with kmeans
 ts_clust_data = run_clust(ts_input_data;method="hierarchical",representation="centroid",n_init=1,n_clust=5) # default k-means make sure that n_init is high enough otherwise the results could be crap and drive you crazy
