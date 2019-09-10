@@ -11,7 +11,7 @@
 |Model class          |	Capacity Expansion Problem                                                        |
 |Model type						| Optimization, Linear optimization model input-data depending energy system 				|
 |Sectors              | (currently) Electricity                                                           |
-|Technologies         |	dispathable and non-dispathable Generation, Storage (seasonal), Transmission      |
+|Technologies         |	dispatchable and non-dispatchable Generation, Storage (seasonal), Transmission      |
 |Decisions 	          | investment and dispatch                                                           |
 |Objective						| Total system cost																																	|
 |Variables 						| Cost, Capacities, Generation, Storage, Lost-Load, Lost-Emissions									|
